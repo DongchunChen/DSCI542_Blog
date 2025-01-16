@@ -16,15 +16,29 @@
   {
     "objectID": "posts/post-with-code/index.html",
     "href": "posts/post-with-code/index.html",
-    "title": "Post With Code",
+    "title": "Predicting Age Groups Using Logistic Regression",
     "section": "",
-    "text": "This is a post with executable code."
+    "text": "Understanding age classification is vital for efficient healthcare resource allocation and planning. Accurately distinguishing between “Senior” (65 years and older) and “Adult” (under 65 years) populations enables targeted interventions and policy formulations. Traditional methods often lack the precision required to address individual differences within these groups. To bridge this gap, we developed a logistic regression model aimed at predicting an individual’s age group based on various health and lifestyle factors.\nWe utilized data from the National Health and Nutrition Examination Survey (NHANES) 2013-2014, a program conducted by the Centers for Disease Control and Prevention (CDC) that collects extensive health and nutritional information from a diverse U.S. population. :contentReferenceoaicite:0 This dataset provides a comprehensive foundation for applying machine learning techniques to demographic and healthcare research."
+  },
+  {
+    "objectID": "posts/post-with-code/index.html#dataset-overview",
+    "href": "posts/post-with-code/index.html#dataset-overview",
+    "title": "Predicting Age Groups Using Logistic Regression",
+    "section": "Dataset Overview",
+    "text": "Dataset Overview\nThe NHANES 2013-2014 dataset encompasses a wide array of health-related variables. For our analysis, we focused on a subset pertinent to age prediction, including:\n\nBody Mass Index (BMI): A measure of body fat based on height and weight.\nBlood Glucose Levels: Including fasting glucose and oral glucose tolerance test (OGTT) results, indicative of metabolic health.\nInsulin Levels: Reflective of pancreatic function and insulin sensitivity.\nPhysical Activity: Self-reported data on engagement in vigorous work activity.\nDiabetes Diagnosis: Self-reported history of diabetes, providing context to glucose and insulin metrics.\n\nThe target variable, age_group, was categorized as “Adult” or “Senior.” Notably, the dataset exhibited an imbalance, with approximately 84% labeled as “Adult” and 16% as “Senior.” This imbalance necessitated careful consideration during model development to ensure equitable performance across both classes."
+  },
+  {
+    "objectID": "posts/post-with-code/index.html#data-preprocessing-and-exploratory-data-analysis-eda",
+    "href": "posts/post-with-code/index.html#data-preprocessing-and-exploratory-data-analysis-eda",
+    "title": "Predicting Age Groups Using Logistic Regression",
+    "section": "Data Preprocessing and Exploratory Data Analysis (EDA)",
+    "text": "Data Preprocessing and Exploratory Data Analysis (EDA)\n\nPreprocessing Steps\n\nFeature Selection and Cleaning:\n\nExcluded non-informative columns such as respondent sequence numbers.\nMapped categorical variables to human-readable labels (e.g., gender coded as “Male” or “Female”).\n\nHandling Missing and Erroneous Data:\n\nRemoved entries with missing or implausible values, particularly in physical activity responses.\n\nData Transformation:\n\nStandardized numerical features to have zero mean and unit variance, facilitating model convergence.\nEncoded categorical variables appropriately:\n\nApplied ordinal encoding for ordered categories, such as diabetes status.\nUtilized one-hot encoding for nominal categories, like gender.\n\n\n\n\n\nExploratory Insights\nInitial exploratory data analysis revealed correlations between certain features and age groups. For instance, higher BMI and elevated blood glucose levels were more prevalent in the “Senior” category. These insights informed feature selection and underscored the importance of each variable in predicting age groups."
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Blog",
     "section": "",
-    "text": "Post With Code\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\nJan 15, 2025\n\n\nHarlow Malloc\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nJan 12, 2025\n\n\nTristan O’Malley\n\n\n\n\n\n\nNo matching items"
+    "text": "Predicting Age Groups Using Logistic Regression\n\n\n\n\n\n\n\n\n\n\n\nJan 16, 2025\n\n\nAndy Tai\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nJan 12, 2025\n\n\nTristan O’Malley\n\n\n\n\n\n\nNo matching items"
   }
 ]
