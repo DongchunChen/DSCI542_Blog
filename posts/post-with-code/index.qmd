@@ -16,7 +16,7 @@ execute:
 
 Age classification is crucial for efficient healthcare planning and resource allocation. Accurately differentiating between "Seniors" (65 years and older) and "Adults" (under 65 years) allows for better-targeted interventions and evidence-based policy decisions. However, traditional methods often fail to account for individual differences within these groups. To address this, we developed a logistic regression model to predict an individual’s age group based on various health and lifestyle factors.
 
-We utilized data from the **National Health and Nutrition Examination Survey (NHANES) 2013-2014**, conducted by the Centers for Disease Control and Prevention (CDC). This dataset provides a rich foundation for applying machine learning techniques to public health and demographic research. The full report is available on our [GitHub repository](https://ubc-mds.github.io/DSCI522-2425-group31_age-group-prediction/reports/age_prediction_report.html).
+We utilized data from the **National Health and Nutrition Examination Survey (NHANES) 2013-2014**, conducted by the Centers for Disease Control and Prevention (CDC). This dataset provides a rich foundation for applying machine learning techniques to public health and demographic research. The full report is available [here](https://ubc-mds.github.io/DSCI522-2425-group31_age-group-prediction/reports/age_prediction_report.html).
 
 
 
@@ -82,7 +82,6 @@ The modeling pipeline included the following steps:
 2. **Encoding**: Transformed categorical variables into numerical representations.
 3. **Model Training**: Used balanced class weights to address the target variable's imbalance.
 4. **Hyperparameter Tuning**: Optimized the regularization parameter `C` using cross-validation, enhancing model performance.
-
 
 
 ---
