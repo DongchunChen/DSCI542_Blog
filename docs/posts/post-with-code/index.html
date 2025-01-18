@@ -6,8 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Andy Tai">
-<meta name="dcterms.date" content="2025-01-16">
+<meta name="author" content="Dongchun Chen">
+<meta name="dcterms.date" content="2025-01-17">
 
 <title>Predicting Age Groups Using Logistic Regression – Blog</title>
 <style>
@@ -116,7 +116,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Predicting Age Groups Using Logistic Regression</h1>
-                      </div>
+                                <div class="quarto-categories">
+                <div class="quarto-category">Machine Learning</div>
+                <div class="quarto-category">Data Science</div>
+                <div class="quarto-category">Healthcare</div>
+              </div>
+                  </div>
   </div>
     
   
@@ -125,14 +130,14 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Author</div>
       <div class="quarto-title-meta-contents">
-               <p>Andy Tai </p>
+               <p>Dongchun Chen </p>
             </div>
     </div>
       
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">January 16, 2025</p>
+        <p class="date">January 17, 2025</p>
       </div>
     </div>
     
@@ -152,23 +157,25 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#methods-and-analysis" id="toc-methods-and-analysis" class="nav-link" data-scroll-target="#methods-and-analysis">Methods and Analysis</a>
   <ul class="collapse">
   <li><a href="#dataset-overview" id="toc-dataset-overview" class="nav-link" data-scroll-target="#dataset-overview">Dataset Overview</a></li>
-  <li><a href="#data-preprocessing-and-exploratory-data-analysis-eda" id="toc-data-preprocessing-and-exploratory-data-analysis-eda" class="nav-link" data-scroll-target="#data-preprocessing-and-exploratory-data-analysis-eda">Data Preprocessing and Exploratory Data Analysis (EDA)</a>
-  <ul class="collapse">
-  <li><a href="#preprocessing-steps" id="toc-preprocessing-steps" class="nav-link" data-scroll-target="#preprocessing-steps">Preprocessing Steps</a></li>
-  <li><a href="#exploratory-insights" id="toc-exploratory-insights" class="nav-link" data-scroll-target="#exploratory-insights">Exploratory Insights</a></li>
-  </ul></li>
+  <li><a href="#data-preprocessing-and-exploratory-data-analysis-eda" id="toc-data-preprocessing-and-exploratory-data-analysis-eda" class="nav-link" data-scroll-target="#data-preprocessing-and-exploratory-data-analysis-eda">Data Preprocessing and Exploratory Data Analysis (EDA)</a></li>
   </ul></li>
   <li><a href="#model-definition-and-optimization" id="toc-model-definition-and-optimization" class="nav-link" data-scroll-target="#model-definition-and-optimization">Model Definition and Optimization</a>
   <ul class="collapse">
+  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression">Logistic Regression</a></li>
   <li><a href="#model-pipeline" id="toc-model-pipeline" class="nav-link" data-scroll-target="#model-pipeline">Model Pipeline</a></li>
   </ul></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
-  <li><a href="#discussion-and-next-steps" id="toc-discussion-and-next-steps" class="nav-link" data-scroll-target="#discussion-and-next-steps">Discussion and Next Steps</a>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
   <ul class="collapse">
-  <li><a href="#implications" id="toc-implications" class="nav-link" data-scroll-target="#implications">Implications</a></li>
+  <li><a href="#performance-metrics" id="toc-performance-metrics" class="nav-link" data-scroll-target="#performance-metrics">Performance Metrics</a></li>
+  <li><a href="#confusion-matrix" id="toc-confusion-matrix" class="nav-link" data-scroll-target="#confusion-matrix">Confusion Matrix</a></li>
   </ul></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a>
+  <ul class="collapse">
+  <li><a href="#strengths" id="toc-strengths" class="nav-link" data-scroll-target="#strengths">Strengths</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
+  </ul></li>
+  <li><a href="#future-work" id="toc-future-work" class="nav-link" data-scroll-target="#future-work">Future Work</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
     </div>
@@ -179,121 +186,140 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
-<p>Understanding age classification is vital for efficient healthcare resource allocation and planning. Accurately distinguishing between “Senior” (65 years and older) and “Adult” (under 65 years) populations enables targeted interventions and policy formulations. Traditional methods often lack the precision required to address individual differences within these groups. To bridge this gap, we developed a logistic regression model aimed at predicting an individual’s age group based on various health and lifestyle factors.</p>
-<p>We utilized data from the <strong>National Health and Nutrition Examination Survey (NHANES) 2013-2014</strong>, a program conducted by the Centers for Disease Control and Prevention (CDC) that collects extensive health and nutritional information from a diverse U.S. population. :contentReference<span data-index="0">oaicite:0</span> This dataset provides a comprehensive foundation for applying machine learning techniques to demographic and healthcare research.</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Age classification is crucial for efficient healthcare planning and resource allocation. Accurately differentiating between “Seniors” (65 years and older) and “Adults” (under 65 years) allows for better-targeted interventions and evidence-based policy decisions. However, traditional methods often fail to account for individual differences within these groups. To address this, we developed a logistic regression model to predict an individual’s age group based on various health and lifestyle factors.</p>
+<p>We utilized data from the <strong>National Health and Nutrition Examination Survey (NHANES) 2013-2014</strong>, conducted by the Centers for Disease Control and Prevention (CDC). This dataset provides a rich foundation for applying machine learning techniques to public health and demographic research. The full report is available on our <a href="https://ubc-mds.github.io/DSCI522-2425-group31_age-group-prediction/reports/age_prediction_report.html">GitHub repository</a>.</p>
 <hr>
 </section>
-<section id="methods-and-analysis" class="level1">
-<h1>Methods and Analysis</h1>
-<section id="dataset-overview" class="level2">
-<h2 class="anchored" data-anchor-id="dataset-overview">Dataset Overview</h2>
-<p>The NHANES 2013-2014 dataset encompasses a wide array of health-related variables. For our analysis, we focused on a subset pertinent to age prediction, including:</p>
+<section id="methods-and-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="methods-and-analysis">Methods and Analysis</h2>
+<section id="dataset-overview" class="level3">
+<h3 class="anchored" data-anchor-id="dataset-overview">Dataset Overview</h3>
+<p>The NHANES 2013-2014 dataset includes a diverse range of health-related variables. For this study, we focused on a subset of features related to age prediction:</p>
 <ul>
-<li><strong>Body Mass Index (BMI)</strong>: A measure of body fat based on height and weight.</li>
-<li><strong>Blood Glucose Levels</strong>: Including fasting glucose and oral glucose tolerance test (OGTT) results, indicative of metabolic health.</li>
-<li><strong>Insulin Levels</strong>: Reflective of pancreatic function and insulin sensitivity.</li>
-<li><strong>Physical Activity</strong>: Self-reported data on engagement in vigorous work activity.</li>
-<li><strong>Diabetes Diagnosis</strong>: Self-reported history of diabetes, providing context to glucose and insulin metrics.</li>
+<li><strong>RIDAGEYR</strong>: Age in years.</li>
+<li><strong>RIAGENDR</strong>: Gender (1: Male, 2: Female).</li>
+<li><strong>PAQ605</strong>: Weekly physical activity (1: Yes, 2: No).</li>
+<li><strong>BMXBMI</strong>: Body Mass Index (BMI).</li>
+<li><strong>LBXGLU</strong>: Fasting blood glucose levels.</li>
+<li><strong>DIQ010</strong>: Diabetes status (1: Yes, 2: No, 3: Borderline).</li>
+<li><strong>LBXGLT</strong>: Oral glucose tolerance test results.</li>
+<li><strong>LBXIN</strong>: Blood insulin levels.</li>
 </ul>
-<p>The target variable, <code>age_group</code>, was categorized as “Adult” or “Senior.” Notably, the dataset exhibited an imbalance, with approximately 84% labeled as “Adult” and 16% as “Senior.” This imbalance necessitated careful consideration during model development to ensure equitable performance across both classes.</p>
+<p>The target variable, <code>age_group</code>, categorized respondents as “Adult” or “Senior.” A significant class imbalance was present, with 84% of respondents labeled as “Adult” and only 16% as “Senior.” This imbalance required careful handling during model training to ensure balanced performance.</p>
 </section>
-<section id="data-preprocessing-and-exploratory-data-analysis-eda" class="level2">
-<h2 class="anchored" data-anchor-id="data-preprocessing-and-exploratory-data-analysis-eda">Data Preprocessing and Exploratory Data Analysis (EDA)</h2>
-<section id="preprocessing-steps" class="level3">
-<h3 class="anchored" data-anchor-id="preprocessing-steps">Preprocessing Steps</h3>
+<section id="data-preprocessing-and-exploratory-data-analysis-eda" class="level3">
+<h3 class="anchored" data-anchor-id="data-preprocessing-and-exploratory-data-analysis-eda">Data Preprocessing and Exploratory Data Analysis (EDA)</h3>
+<section id="preprocessing-steps" class="level4">
+<h4 class="anchored" data-anchor-id="preprocessing-steps">Preprocessing Steps</h4>
 <ol type="1">
 <li><strong>Feature Selection and Cleaning</strong>:
 <ul>
-<li>Excluded non-informative columns such as respondent sequence numbers.</li>
-<li>Mapped categorical variables to human-readable labels (e.g., gender coded as “Male” or “Female”).</li>
+<li>Removed non-informative columns, such as respondent IDs.</li>
+<li>Mapped categorical variables (e.g., gender and diabetes status) to readable labels.</li>
 </ul></li>
-<li><strong>Handling Missing and Erroneous Data</strong>:
+<li><strong>Handling Missing Data</strong>:
 <ul>
-<li>Removed entries with missing or implausible values, particularly in physical activity responses.</li>
+<li>Excluded entries with implausible or missing values, particularly in physical activity responses.</li>
 </ul></li>
 <li><strong>Data Transformation</strong>:
 <ul>
-<li>Standardized numerical features to have zero mean and unit variance, facilitating model convergence.</li>
-<li>Encoded categorical variables appropriately:
+<li>Standardized numerical features to ensure consistency.</li>
+<li>Encoded categorical variables:
 <ul>
-<li>Applied ordinal encoding for ordered categories, such as diabetes status.</li>
-<li>Utilized one-hot encoding for nominal categories, like gender.</li>
+<li>Ordinal encoding for ordered categories like diabetes status.</li>
+<li>One-hot encoding for nominal categories like gender.</li>
 </ul></li>
 </ul></li>
 </ol>
 </section>
-<section id="exploratory-insights" class="level3">
-<h3 class="anchored" data-anchor-id="exploratory-insights">Exploratory Insights</h3>
-<p>Initial exploratory data analysis revealed correlations between certain features and age groups. For instance, higher BMI and elevated blood glucose levels were more prevalent in the “Senior” category. These insights informed feature selection and underscored the importance of each variable in predicting age groups.</p>
+<section id="exploratory-insights" class="level4">
+<h4 class="anchored" data-anchor-id="exploratory-insights">Exploratory Insights</h4>
+<p>Exploratory analysis revealed several notable patterns. The imbalance in the target variable emphasized the importance of stratified sampling during train-test splits. Additionally, a heatmap of feature correlations (below) highlighted key relationships, such as a moderate correlation between BMI and fasting glucose levels.</p>
+<p><img src="class.png" class="img-fluid" style="width:90.0%" alt="Class Imbalance"> <img src="heatmap.png" class="img-fluid" style="width:70.0%" alt="Feature Correlation Heatmap"></p>
+<p>These insights informed feature selection and guided model development.</p>
 <hr>
 </section>
 </section>
 </section>
-<section id="model-definition-and-optimization" class="level1">
-<h1>Model Definition and Optimization</h1>
-<p>We selected logistic regression for its interpretability and efficiency in binary classification tasks. This model estimates the probability of an instance belonging to a particular class, making it suitable for distinguishing between “Adult” and “Senior” groups.</p>
+<section id="model-definition-and-optimization" class="level2">
+<h2 class="anchored" data-anchor-id="model-definition-and-optimization">Model Definition and Optimization</h2>
+<section id="logistic-regression" class="level3">
+<h3 class="anchored" data-anchor-id="logistic-regression">Logistic Regression</h3>
+<p>Logistic regression was selected for its simplicity, efficiency, and interpretability in binary classification tasks. This model predicts the probability of an instance belonging to a specific class, making it well-suited for distinguishing between “Adults” and “Seniors.”</p>
+</section>
 <section id="model-pipeline" class="level3">
 <h3 class="anchored" data-anchor-id="model-pipeline">Model Pipeline</h3>
-<p>The modeling pipeline comprised the following steps:</p>
-<ul>
-<li><strong>Data Scaling</strong>: Standardized numerical features to ensure uniformity.</li>
-<li><strong>Encoding</strong>: Transformed categorical variables into numerical representations suitable for the model.</li>
-<li><strong>Model Training</strong>: Implemented logistic regression with balanced class weights to address the dataset’s class imbalance.</li>
-<li><strong>Hyperparameter Tuning</strong>: Employed cross-validation to optimize the regularization parameter <code>C</code>, enhancing the model’s generalization capabilities.</li>
-</ul>
-<hr>
-</section>
-</section>
-<section id="results" class="level1">
-<h1>Results</h1>
-<p>Our logistic regression model achieved the following performance metrics:</p>
-<ul>
-<li><strong>Accuracy</strong>: 73%</li>
-<li><strong>Macro F1 Score</strong>: 0.61</li>
-</ul>
-<p>The confusion matrix provided further insights:</p>
-<ul>
-<li>Correctly classified 370 “Adults” and 48 “Seniors.”</li>
-<li>Misclassified 152 cases overall.</li>
-</ul>
-<hr>
-</section>
-<section id="discussion-and-next-steps" class="level1">
-<h1>Discussion and Next Steps</h1>
-<p>While the model’s performance is promising, there are avenues for improvement:</p>
+<p>The modeling pipeline included the following steps:</p>
 <ol type="1">
-<li><strong>Feature Engineering</strong>:
-<ul>
-<li>Incorporate interaction terms or external datasets to enrich the feature set.</li>
-</ul></li>
-<li><strong>Threshold Adjustment</strong>:
-<ul>
-<li>Explore different classification thresholds to better capture “Senior” predictions.</li>
-</ul></li>
-<li><strong>Model Exploration</strong>:
-<ul>
-<li>Evaluate alternative algorithms, such as K-Nearest Neighbors and Support Vector Classifiers, to benchmark against logistic regression.</li>
-</ul></li>
+<li><strong>Data Scaling</strong>: Ensured uniformity by standardizing numerical features.</li>
+<li><strong>Encoding</strong>: Transformed categorical variables into numerical representations.</li>
+<li><strong>Model Training</strong>: Used balanced class weights to address the target variable’s imbalance.</li>
+<li><strong>Hyperparameter Tuning</strong>: Optimized the regularization parameter <code>C</code> using cross-validation, enhancing model performance.</li>
 </ol>
-<section id="implications" class="level3">
-<h3 class="anchored" data-anchor-id="implications">Implications</h3>
-<p>Enhanced age group classification models can significantly improve healthcare strategies and resource allocation, particularly for seniors managing chronic conditions.</p>
 <hr>
 </section>
 </section>
-<section id="conclusion" class="level1">
-<h1>Conclusion</h1>
-<p>This project demonstrates the potential of logistic regression in demographic analysis. By refining our approach through feature engineering and exploring advanced models, we aim to boost prediction accuracy and contribute to more effective public health planning.</p>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<section id="performance-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="performance-metrics">Performance Metrics</h3>
+<p>The logistic regression model achieved the following test data results:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pm.png" class="img-fluid figure-img" style="width:90.0%"></p>
+<figcaption>Performance Metrics</figcaption>
+</figure>
+</div>
+</section>
+<section id="confusion-matrix" class="level3">
+<h3 class="anchored" data-anchor-id="confusion-matrix">Confusion Matrix</h3>
+<p>The confusion matrix provided further insights into the model’s performance:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cm.png" class="img-fluid figure-img" style="width:90.0%"></p>
+<figcaption>Confusion Matrix</figcaption>
+</figure>
+</div>
+<p>While the model performed well for the majority class (Adults), its performance on the minority class (Seniors) was less satisfactory due to the inherent class imbalance.</p>
 <hr>
 </section>
-<section id="references" class="level1">
-<h1>References</h1>
-<ul>
-<li>National Health and Nutrition Examination Survey (NHANES) 2013-2014.</li>
-<li>Löckenhoff, Corinna E. et al.&nbsp;(2016). <em>Adult Age Differences in Health-Related Decision-Making: A Primer</em>.</li>
-</ul>
+</section>
+<section id="discussion" class="level2">
+<h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
+<section id="strengths" class="level3">
+<h3 class="anchored" data-anchor-id="strengths">Strengths</h3>
+<ol type="1">
+<li><strong>Baseline Model</strong>: Logistic regression serves as a reliable baseline for more advanced models.</li>
+<li><strong>Interpretability</strong>: Coefficients offer valuable insights into feature importance and prediction mechanisms.</li>
+<li><strong>Reproducibility</strong>: Stratified sampling and a fixed random seed ensure consistent and reliable results.</li>
+</ol>
+</section>
+<section id="limitations" class="level3">
+<h3 class="anchored" data-anchor-id="limitations">Limitations</h3>
+<ol type="1">
+<li><strong>Class Imbalance</strong>: Despite using balanced class weights, the model struggled to predict the minority class accurately. Techniques like SMOTE or oversampling could improve performance.</li>
+<li><strong>Threshold Sensitivity</strong>: The default decision threshold of 0.5 may not be ideal. Adjusting this threshold could improve recall for the “Senior” category.</li>
+<li><strong>Feature Engineering</strong>: Incorporating derived features, such as age-to-BMI ratios, could enhance predictive power.</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="future-work" class="level2">
+<h2 class="anchored" data-anchor-id="future-work">Future Work</h2>
+<p>To address the limitations, we propose the following:</p>
+<ol type="1">
+<li><strong>Feature Engineering</strong>: Explore new features derived from existing data.</li>
+<li><strong>Algorithm Comparison</strong>: Evaluate alternative models, such as K-Nearest Neighbors and Support Vector Machines.</li>
+<li><strong>Advanced Tuning</strong>: Apply randomized search or Bayesian optimization for hyperparameter tuning.</li>
+<li><strong>Threshold Analysis</strong>: Experiment with different classification thresholds to improve recall for the minority class.</li>
+</ol>
+<hr>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>This study demonstrates the feasibility of using logistic regression to classify age groups based on health survey data. While the model provides a strong foundation, there is significant room for improvement. Future iterations will focus on addressing class imbalance, refining feature engineering, and exploring advanced models to achieve more robust performance. These efforts underscore the value of data-driven approaches in public health and demographic research.</p>
 
 
 </section>

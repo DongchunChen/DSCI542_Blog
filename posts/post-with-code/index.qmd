@@ -1,7 +1,8 @@
 ---
 title: "Predicting Age Groups Using Logistic Regression"
-author: "Andy Tai"
-date: "2025-01-16"
+author: "Dongchun Chen"
+date: "2025-01-17"
+categories: [Machine Learning, Data Science, Healthcare]
 format:
   html:
     toc: true
@@ -11,107 +12,121 @@ execute:
   echo: false
 ---
 
-# Introduction
+## Introduction
 
-Understanding age classification is vital for efficient healthcare resource allocation and planning. Accurately distinguishing between "Senior" (65 years and older) and "Adult" (under 65 years) populations enables targeted interventions and policy formulations. Traditional methods often lack the precision required to address individual differences within these groups. To bridge this gap, we developed a logistic regression model aimed at predicting an individual's age group based on various health and lifestyle factors.
+Age classification is crucial for efficient healthcare planning and resource allocation. Accurately differentiating between "Seniors" (65 years and older) and "Adults" (under 65 years) allows for better-targeted interventions and evidence-based policy decisions. However, traditional methods often fail to account for individual differences within these groups. To address this, we developed a logistic regression model to predict an individual’s age group based on various health and lifestyle factors.
 
-We utilized data from the **National Health and Nutrition Examination Survey (NHANES) 2013-2014**, a program conducted by the Centers for Disease Control and Prevention (CDC) that collects extensive health and nutritional information from a diverse U.S. population. :contentReference[oaicite:0]{index=0} This dataset provides a comprehensive foundation for applying machine learning techniques to demographic and healthcare research.
+We utilized data from the **National Health and Nutrition Examination Survey (NHANES) 2013-2014**, conducted by the Centers for Disease Control and Prevention (CDC). This dataset provides a rich foundation for applying machine learning techniques to public health and demographic research. The full report is available on our [GitHub repository](https://ubc-mds.github.io/DSCI522-2425-group31_age-group-prediction/reports/age_prediction_report.html).
 
 ---
 
-# Methods and Analysis
+## Methods and Analysis
 
-## Dataset Overview
+### Dataset Overview
 
-The NHANES 2013-2014 dataset encompasses a wide array of health-related variables. For our analysis, we focused on a subset pertinent to age prediction, including:
+The NHANES 2013-2014 dataset includes a diverse range of health-related variables. For this study, we focused on a subset of features related to age prediction:
 
-- **Body Mass Index (BMI)**: A measure of body fat based on height and weight.
-- **Blood Glucose Levels**: Including fasting glucose and oral glucose tolerance test (OGTT) results, indicative of metabolic health.
-- **Insulin Levels**: Reflective of pancreatic function and insulin sensitivity.
-- **Physical Activity**: Self-reported data on engagement in vigorous work activity.
-- **Diabetes Diagnosis**: Self-reported history of diabetes, providing context to glucose and insulin metrics.
+- **RIDAGEYR**: Age in years.
+- **RIAGENDR**: Gender (1: Male, 2: Female).
+- **PAQ605**: Weekly physical activity (1: Yes, 2: No).
+- **BMXBMI**: Body Mass Index (BMI).
+- **LBXGLU**: Fasting blood glucose levels.
+- **DIQ010**: Diabetes status (1: Yes, 2: No, 3: Borderline).
+- **LBXGLT**: Oral glucose tolerance test results.
+- **LBXIN**: Blood insulin levels.
 
-The target variable, `age_group`, was categorized as "Adult" or "Senior." Notably, the dataset exhibited an imbalance, with approximately 84% labeled as "Adult" and 16% as "Senior." This imbalance necessitated careful consideration during model development to ensure equitable performance across both classes.
+The target variable, `age_group`, categorized respondents as "Adult" or "Senior." A significant class imbalance was present, with 84% of respondents labeled as "Adult" and only 16% as "Senior." This imbalance required careful handling during model training to ensure balanced performance.
 
-## Data Preprocessing and Exploratory Data Analysis (EDA)
+### Data Preprocessing and Exploratory Data Analysis (EDA)
 
-### Preprocessing Steps
+#### Preprocessing Steps
 
 1. **Feature Selection and Cleaning**:
-   - Excluded non-informative columns such as respondent sequence numbers.
-   - Mapped categorical variables to human-readable labels (e.g., gender coded as "Male" or "Female").
+   - Removed non-informative columns, such as respondent IDs.
+   - Mapped categorical variables (e.g., gender and diabetes status) to readable labels.
 
-2. **Handling Missing and Erroneous Data**:
-   - Removed entries with missing or implausible values, particularly in physical activity responses.
+2. **Handling Missing Data**:
+   - Excluded entries with implausible or missing values, particularly in physical activity responses.
 
 3. **Data Transformation**:
-   - Standardized numerical features to have zero mean and unit variance, facilitating model convergence.
-   - Encoded categorical variables appropriately:
-     - Applied ordinal encoding for ordered categories, such as diabetes status.
-     - Utilized one-hot encoding for nominal categories, like gender.
+   - Standardized numerical features to ensure consistency.
+   - Encoded categorical variables:
+     - Ordinal encoding for ordered categories like diabetes status.
+     - One-hot encoding for nominal categories like gender.
 
-### Exploratory Insights
+#### Exploratory Insights
 
-Initial exploratory data analysis revealed correlations between certain features and age groups. For instance, higher BMI and elevated blood glucose levels were more prevalent in the "Senior" category. These insights informed feature selection and underscored the importance of each variable in predicting age groups.
+Exploratory analysis revealed several notable patterns. The imbalance in the target variable emphasized the importance of stratified sampling during train-test splits. Additionally, a heatmap of feature correlations (below) highlighted key relationships, such as a moderate correlation between BMI and fasting glucose levels.
+
+![Class Imbalance](class.png){width="90%"}
+![Feature Correlation Heatmap](heatmap.png){width="70%"}  
+
+These insights informed feature selection and guided model development.
 
 ---
 
-# Model Definition and Optimization
+## Model Definition and Optimization
 
-We selected logistic regression for its interpretability and efficiency in binary classification tasks. This model estimates the probability of an instance belonging to a particular class, making it suitable for distinguishing between "Adult" and "Senior" groups.
+### Logistic Regression
+
+Logistic regression was selected for its simplicity, efficiency, and interpretability in binary classification tasks. This model predicts the probability of an instance belonging to a specific class, making it well-suited for distinguishing between "Adults" and "Seniors."
 
 ### Model Pipeline
 
-The modeling pipeline comprised the following steps:
+The modeling pipeline included the following steps:
 
-- **Data Scaling**: Standardized numerical features to ensure uniformity.
-- **Encoding**: Transformed categorical variables into numerical representations suitable for the model.
-- **Model Training**: Implemented logistic regression with balanced class weights to address the dataset's class imbalance.
-- **Hyperparameter Tuning**: Employed cross-validation to optimize the regularization parameter `C`, enhancing the model's generalization capabilities.
-
----
-
-# Results
-
-Our logistic regression model achieved the following performance metrics:
-
-- **Accuracy**: 73%
-- **Macro F1 Score**: 0.61
-
-The confusion matrix provided further insights:
-
-- Correctly classified 370 "Adults" and 48 "Seniors."
-- Misclassified 152 cases overall.
+1. **Data Scaling**: Ensured uniformity by standardizing numerical features.
+2. **Encoding**: Transformed categorical variables into numerical representations.
+3. **Model Training**: Used balanced class weights to address the target variable's imbalance.
+4. **Hyperparameter Tuning**: Optimized the regularization parameter `C` using cross-validation, enhancing model performance.
 
 ---
 
-# Discussion and Next Steps
+## Results
 
-While the model's performance is promising, there are avenues for improvement:
+### Performance Metrics
 
-1. **Feature Engineering**:
-   - Incorporate interaction terms or external datasets to enrich the feature set.
+The logistic regression model achieved the following test data results:
 
-2. **Threshold Adjustment**:
-   - Explore different classification thresholds to better capture "Senior" predictions.
+![Performance Metrics](pm.png){width="90%"}
 
-3. **Model Exploration**:
-   - Evaluate alternative algorithms, such as K-Nearest Neighbors and Support Vector Classifiers, to benchmark against logistic regression.
+### Confusion Matrix
 
-### Implications
+The confusion matrix provided further insights into the model's performance:
 
-Enhanced age group classification models can significantly improve healthcare strategies and resource allocation, particularly for seniors managing chronic conditions.
+![Confusion Matrix](cm.png){width="90%"}
 
----
-
-# Conclusion
-
-This project demonstrates the potential of logistic regression in demographic analysis. By refining our approach through feature engineering and exploring advanced models, we aim to boost prediction accuracy and contribute to more effective public health planning.
+While the model performed well for the majority class (Adults), its performance on the minority class (Seniors) was less satisfactory due to the inherent class imbalance.
 
 ---
 
-# References
+## Discussion
 
-- National Health and Nutrition Examination Survey (NHANES) 2013-2014.
-- Löckenhoff, Corinna E. et al. (2016). *Adult Age Differences in Health-Related Decision-Making: A Primer*.
+### Strengths
 
+1. **Baseline Model**: Logistic regression serves as a reliable baseline for more advanced models.
+2. **Interpretability**: Coefficients offer valuable insights into feature importance and prediction mechanisms.
+3. **Reproducibility**: Stratified sampling and a fixed random seed ensure consistent and reliable results.
+
+### Limitations
+
+1. **Class Imbalance**: Despite using balanced class weights, the model struggled to predict the minority class accurately. Techniques like SMOTE or oversampling could improve performance.
+2. **Threshold Sensitivity**: The default decision threshold of 0.5 may not be ideal. Adjusting this threshold could improve recall for the "Senior" category.
+3. **Feature Engineering**: Incorporating derived features, such as age-to-BMI ratios, could enhance predictive power.
+
+---
+
+## Future Work
+
+To address the limitations, we propose the following:
+
+1. **Feature Engineering**: Explore new features derived from existing data.
+2. **Algorithm Comparison**: Evaluate alternative models, such as K-Nearest Neighbors and Support Vector Machines.
+3. **Advanced Tuning**: Apply randomized search or Bayesian optimization for hyperparameter tuning.
+4. **Threshold Analysis**: Experiment with different classification thresholds to improve recall for the minority class.
+
+---
+
+## Conclusion
+
+This study demonstrates the feasibility of using logistic regression to classify age groups based on health survey data. While the model provides a strong foundation, there is significant room for improvement. Future iterations will focus on addressing class imbalance, refining feature engineering, and exploring advanced models to achieve more robust performance. These efforts underscore the value of data-driven approaches in public health and demographic research.

@@ -18,27 +18,62 @@
     "href": "posts/post-with-code/index.html",
     "title": "Predicting Age Groups Using Logistic Regression",
     "section": "",
-    "text": "Understanding age classification is vital for efficient healthcare resource allocation and planning. Accurately distinguishing between “Senior” (65 years and older) and “Adult” (under 65 years) populations enables targeted interventions and policy formulations. Traditional methods often lack the precision required to address individual differences within these groups. To bridge this gap, we developed a logistic regression model aimed at predicting an individual’s age group based on various health and lifestyle factors.\nWe utilized data from the National Health and Nutrition Examination Survey (NHANES) 2013-2014, a program conducted by the Centers for Disease Control and Prevention (CDC) that collects extensive health and nutritional information from a diverse U.S. population. :contentReferenceoaicite:0 This dataset provides a comprehensive foundation for applying machine learning techniques to demographic and healthcare research."
+    "text": "Age classification is crucial for efficient healthcare planning and resource allocation. Accurately differentiating between “Seniors” (65 years and older) and “Adults” (under 65 years) allows for better-targeted interventions and evidence-based policy decisions. However, traditional methods often fail to account for individual differences within these groups. To address this, we developed a logistic regression model to predict an individual’s age group based on various health and lifestyle factors.\nWe utilized data from the National Health and Nutrition Examination Survey (NHANES) 2013-2014, conducted by the Centers for Disease Control and Prevention (CDC). This dataset provides a rich foundation for applying machine learning techniques to public health and demographic research. The full report is available on our GitHub repository."
   },
   {
-    "objectID": "posts/post-with-code/index.html#dataset-overview",
-    "href": "posts/post-with-code/index.html#dataset-overview",
+    "objectID": "posts/post-with-code/index.html#introduction",
+    "href": "posts/post-with-code/index.html#introduction",
     "title": "Predicting Age Groups Using Logistic Regression",
-    "section": "Dataset Overview",
-    "text": "Dataset Overview\nThe NHANES 2013-2014 dataset encompasses a wide array of health-related variables. For our analysis, we focused on a subset pertinent to age prediction, including:\n\nBody Mass Index (BMI): A measure of body fat based on height and weight.\nBlood Glucose Levels: Including fasting glucose and oral glucose tolerance test (OGTT) results, indicative of metabolic health.\nInsulin Levels: Reflective of pancreatic function and insulin sensitivity.\nPhysical Activity: Self-reported data on engagement in vigorous work activity.\nDiabetes Diagnosis: Self-reported history of diabetes, providing context to glucose and insulin metrics.\n\nThe target variable, age_group, was categorized as “Adult” or “Senior.” Notably, the dataset exhibited an imbalance, with approximately 84% labeled as “Adult” and 16% as “Senior.” This imbalance necessitated careful consideration during model development to ensure equitable performance across both classes."
+    "section": "",
+    "text": "Age classification is crucial for efficient healthcare planning and resource allocation. Accurately differentiating between “Seniors” (65 years and older) and “Adults” (under 65 years) allows for better-targeted interventions and evidence-based policy decisions. However, traditional methods often fail to account for individual differences within these groups. To address this, we developed a logistic regression model to predict an individual’s age group based on various health and lifestyle factors.\nWe utilized data from the National Health and Nutrition Examination Survey (NHANES) 2013-2014, conducted by the Centers for Disease Control and Prevention (CDC). This dataset provides a rich foundation for applying machine learning techniques to public health and demographic research. The full report is available on our GitHub repository."
   },
   {
-    "objectID": "posts/post-with-code/index.html#data-preprocessing-and-exploratory-data-analysis-eda",
-    "href": "posts/post-with-code/index.html#data-preprocessing-and-exploratory-data-analysis-eda",
+    "objectID": "posts/post-with-code/index.html#methods-and-analysis",
+    "href": "posts/post-with-code/index.html#methods-and-analysis",
     "title": "Predicting Age Groups Using Logistic Regression",
-    "section": "Data Preprocessing and Exploratory Data Analysis (EDA)",
-    "text": "Data Preprocessing and Exploratory Data Analysis (EDA)\n\nPreprocessing Steps\n\nFeature Selection and Cleaning:\n\nExcluded non-informative columns such as respondent sequence numbers.\nMapped categorical variables to human-readable labels (e.g., gender coded as “Male” or “Female”).\n\nHandling Missing and Erroneous Data:\n\nRemoved entries with missing or implausible values, particularly in physical activity responses.\n\nData Transformation:\n\nStandardized numerical features to have zero mean and unit variance, facilitating model convergence.\nEncoded categorical variables appropriately:\n\nApplied ordinal encoding for ordered categories, such as diabetes status.\nUtilized one-hot encoding for nominal categories, like gender.\n\n\n\n\n\nExploratory Insights\nInitial exploratory data analysis revealed correlations between certain features and age groups. For instance, higher BMI and elevated blood glucose levels were more prevalent in the “Senior” category. These insights informed feature selection and underscored the importance of each variable in predicting age groups."
+    "section": "Methods and Analysis",
+    "text": "Methods and Analysis\n\nDataset Overview\nThe NHANES 2013-2014 dataset includes a diverse range of health-related variables. For this study, we focused on a subset of features related to age prediction:\n\nRIDAGEYR: Age in years.\nRIAGENDR: Gender (1: Male, 2: Female).\nPAQ605: Weekly physical activity (1: Yes, 2: No).\nBMXBMI: Body Mass Index (BMI).\nLBXGLU: Fasting blood glucose levels.\nDIQ010: Diabetes status (1: Yes, 2: No, 3: Borderline).\nLBXGLT: Oral glucose tolerance test results.\nLBXIN: Blood insulin levels.\n\nThe target variable, age_group, categorized respondents as “Adult” or “Senior.” A significant class imbalance was present, with 84% of respondents labeled as “Adult” and only 16% as “Senior.” This imbalance required careful handling during model training to ensure balanced performance.\n\n\nData Preprocessing and Exploratory Data Analysis (EDA)\n\nPreprocessing Steps\n\nFeature Selection and Cleaning:\n\nRemoved non-informative columns, such as respondent IDs.\nMapped categorical variables (e.g., gender and diabetes status) to readable labels.\n\nHandling Missing Data:\n\nExcluded entries with implausible or missing values, particularly in physical activity responses.\n\nData Transformation:\n\nStandardized numerical features to ensure consistency.\nEncoded categorical variables:\n\nOrdinal encoding for ordered categories like diabetes status.\nOne-hot encoding for nominal categories like gender.\n\n\n\n\n\nExploratory Insights\nExploratory analysis revealed several notable patterns. The imbalance in the target variable emphasized the importance of stratified sampling during train-test splits. Additionally, a heatmap of feature correlations (below) highlighted key relationships, such as a moderate correlation between BMI and fasting glucose levels.\n \nThese insights informed feature selection and guided model development."
+  },
+  {
+    "objectID": "posts/post-with-code/index.html#model-definition-and-optimization",
+    "href": "posts/post-with-code/index.html#model-definition-and-optimization",
+    "title": "Predicting Age Groups Using Logistic Regression",
+    "section": "Model Definition and Optimization",
+    "text": "Model Definition and Optimization\n\nLogistic Regression\nLogistic regression was selected for its simplicity, efficiency, and interpretability in binary classification tasks. This model predicts the probability of an instance belonging to a specific class, making it well-suited for distinguishing between “Adults” and “Seniors.”\n\n\nModel Pipeline\nThe modeling pipeline included the following steps:\n\nData Scaling: Ensured uniformity by standardizing numerical features.\nEncoding: Transformed categorical variables into numerical representations.\nModel Training: Used balanced class weights to address the target variable’s imbalance.\nHyperparameter Tuning: Optimized the regularization parameter C using cross-validation, enhancing model performance."
+  },
+  {
+    "objectID": "posts/post-with-code/index.html#results",
+    "href": "posts/post-with-code/index.html#results",
+    "title": "Predicting Age Groups Using Logistic Regression",
+    "section": "Results",
+    "text": "Results\n\nPerformance Metrics\nThe logistic regression model achieved the following test data results:\n\n\n\nPerformance Metrics\n\n\n\n\nConfusion Matrix\nThe confusion matrix provided further insights into the model’s performance:\n\n\n\nConfusion Matrix\n\n\nWhile the model performed well for the majority class (Adults), its performance on the minority class (Seniors) was less satisfactory due to the inherent class imbalance."
+  },
+  {
+    "objectID": "posts/post-with-code/index.html#discussion",
+    "href": "posts/post-with-code/index.html#discussion",
+    "title": "Predicting Age Groups Using Logistic Regression",
+    "section": "Discussion",
+    "text": "Discussion\n\nStrengths\n\nBaseline Model: Logistic regression serves as a reliable baseline for more advanced models.\nInterpretability: Coefficients offer valuable insights into feature importance and prediction mechanisms.\nReproducibility: Stratified sampling and a fixed random seed ensure consistent and reliable results.\n\n\n\nLimitations\n\nClass Imbalance: Despite using balanced class weights, the model struggled to predict the minority class accurately. Techniques like SMOTE or oversampling could improve performance.\nThreshold Sensitivity: The default decision threshold of 0.5 may not be ideal. Adjusting this threshold could improve recall for the “Senior” category.\nFeature Engineering: Incorporating derived features, such as age-to-BMI ratios, could enhance predictive power."
+  },
+  {
+    "objectID": "posts/post-with-code/index.html#future-work",
+    "href": "posts/post-with-code/index.html#future-work",
+    "title": "Predicting Age Groups Using Logistic Regression",
+    "section": "Future Work",
+    "text": "Future Work\nTo address the limitations, we propose the following:\n\nFeature Engineering: Explore new features derived from existing data.\nAlgorithm Comparison: Evaluate alternative models, such as K-Nearest Neighbors and Support Vector Machines.\nAdvanced Tuning: Apply randomized search or Bayesian optimization for hyperparameter tuning.\nThreshold Analysis: Experiment with different classification thresholds to improve recall for the minority class."
+  },
+  {
+    "objectID": "posts/post-with-code/index.html#conclusion",
+    "href": "posts/post-with-code/index.html#conclusion",
+    "title": "Predicting Age Groups Using Logistic Regression",
+    "section": "Conclusion",
+    "text": "Conclusion\nThis study demonstrates the feasibility of using logistic regression to classify age groups based on health survey data. While the model provides a strong foundation, there is significant room for improvement. Future iterations will focus on addressing class imbalance, refining feature engineering, and exploring advanced models to achieve more robust performance. These efforts underscore the value of data-driven approaches in public health and demographic research."
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Blog",
     "section": "",
-    "text": "Predicting Age Groups Using Logistic Regression\n\n\n\n\n\n\n\n\n\n\n\nJan 16, 2025\n\n\nAndy Tai\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nJan 12, 2025\n\n\nTristan O’Malley\n\n\n\n\n\n\nNo matching items"
+    "text": "Predicting Age Groups Using Logistic Regression\n\n\n\n\n\n\nMachine Learning\n\n\nData Science\n\n\nHealthcare\n\n\n\n\n\n\n\n\n\nJan 17, 2025\n\n\nDongchun Chen\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nJan 12, 2025\n\n\nTristan O’Malley\n\n\n\n\n\n\nNo matching items"
   }
 ]
