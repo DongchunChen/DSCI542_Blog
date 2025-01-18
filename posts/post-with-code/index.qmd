@@ -18,6 +18,8 @@ Age classification is crucial for efficient healthcare planning and resource all
 
 We utilized data from the **National Health and Nutrition Examination Survey (NHANES) 2013-2014**, conducted by the Centers for Disease Control and Prevention (CDC). This dataset provides a rich foundation for applying machine learning techniques to public health and demographic research. The full report is available on our [GitHub repository](https://ubc-mds.github.io/DSCI522-2425-group31_age-group-prediction/reports/age_prediction_report.html).
 
+
+
 ---
 
 ## Methods and Analysis
@@ -58,10 +60,11 @@ The target variable, `age_group`, categorized respondents as "Adult" or "Senior.
 
 Exploratory analysis revealed several notable patterns. The imbalance in the target variable emphasized the importance of stratified sampling during train-test splits. Additionally, a heatmap of feature correlations (below) highlighted key relationships, such as a moderate correlation between BMI and fasting glucose levels.
 
-![Class Imbalance](class.png){width="90%"}
+![Class Imbalance](class.png){width="70%"}
 ![Feature Correlation Heatmap](heatmap.png){width="70%"}  
 
 These insights informed feature selection and guided model development.
+
 
 ---
 
@@ -80,6 +83,8 @@ The modeling pipeline included the following steps:
 3. **Model Training**: Used balanced class weights to address the target variable's imbalance.
 4. **Hyperparameter Tuning**: Optimized the regularization parameter `C` using cross-validation, enhancing model performance.
 
+
+
 ---
 
 ## Results
@@ -88,13 +93,13 @@ The modeling pipeline included the following steps:
 
 The logistic regression model achieved the following test data results:
 
-![Performance Metrics](pm.png){width="90%"}
+![](pm.png){width="70%"}
 
 ### Confusion Matrix
 
 The confusion matrix provided further insights into the model's performance:
 
-![Confusion Matrix](cm.png){width="90%"}
+![](cm.png){width="70%"}
 
 While the model performed well for the majority class (Adults), its performance on the minority class (Seniors) was less satisfactory due to the inherent class imbalance.
 
@@ -129,4 +134,4 @@ To address the limitations, we propose the following:
 
 ## Conclusion
 
-This study demonstrates the feasibility of using logistic regression to classify age groups based on health survey data. While the model provides a strong foundation, there is significant room for improvement. Future iterations will focus on addressing class imbalance, refining feature engineering, and exploring advanced models to achieve more robust performance. These efforts underscore the value of data-driven approaches in public health and demographic research.
+This study demonstrates the feasibility of using logistic regression to classify age groups based on health survey data. While the model provides a strong foundation, there is significant room for improvement. Future iterations will focus on addressing class imbalance, refining feature engineering, and exploring advanced models to achieve more robust performance. These efforts highlight the importance of data-driven approaches in public health and demographic research.

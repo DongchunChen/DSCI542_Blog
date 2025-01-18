@@ -46,7 +46,7 @@
     "href": "posts/post-with-code/index.html#results",
     "title": "Predicting Age Groups Using Logistic Regression",
     "section": "Results",
-    "text": "Results\n\nPerformance Metrics\nThe logistic regression model achieved the following test data results:\n\n\n\nPerformance Metrics\n\n\n\n\nConfusion Matrix\nThe confusion matrix provided further insights into the model’s performance:\n\n\n\nConfusion Matrix\n\n\nWhile the model performed well for the majority class (Adults), its performance on the minority class (Seniors) was less satisfactory due to the inherent class imbalance."
+    "text": "Results\n\nPerformance Metrics\nThe logistic regression model achieved the following test data results:\n\n\n\nConfusion Matrix\nThe confusion matrix provided further insights into the model’s performance:\n\nWhile the model performed well for the majority class (Adults), its performance on the minority class (Seniors) was less satisfactory due to the inherent class imbalance."
   },
   {
     "objectID": "posts/post-with-code/index.html#discussion",
@@ -67,7 +67,7 @@
     "href": "posts/post-with-code/index.html#conclusion",
     "title": "Predicting Age Groups Using Logistic Regression",
     "section": "Conclusion",
-    "text": "Conclusion\nThis study demonstrates the feasibility of using logistic regression to classify age groups based on health survey data. While the model provides a strong foundation, there is significant room for improvement. Future iterations will focus on addressing class imbalance, refining feature engineering, and exploring advanced models to achieve more robust performance. These efforts underscore the value of data-driven approaches in public health and demographic research."
+    "text": "Conclusion\nThis study demonstrates the feasibility of using logistic regression to classify age groups based on health survey data. While the model provides a strong foundation, there is significant room for improvement. Future iterations will focus on addressing class imbalance, refining feature engineering, and exploring advanced models to achieve more robust performance. These efforts highlight the importance of data-driven approaches in public health and demographic research."
   },
   {
     "objectID": "index.html",
